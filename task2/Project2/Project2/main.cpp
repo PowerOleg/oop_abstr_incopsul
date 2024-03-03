@@ -20,9 +20,9 @@ public:
 
     void print()
     {
-        std::cout << this->city << std::endl;
-        std::cout << this->street << std::endl;
-        std::cout << this->building << std::endl;
+        std::cout << this->city << ", ";
+        std::cout << this->street << ", ";
+        std::cout << this->building << ", ";
         std::cout << this->appartment << std::endl;
     }
 
@@ -44,6 +44,17 @@ public:
     }
 };
 
+void sort(Address* addresses, int count)
+{
+    for (int i = 0; i < count; i++)
+    {
+        addresses[i].getCity();
+        addresses[i].getStreet();
+        addresses[i].getBuilding();
+        addresses[i].getAppartment();
+    }
+}
+
 int main(int argc, char** argv)
 {
     setlocale(LC_ALL, "ru");
@@ -51,7 +62,7 @@ int main(int argc, char** argv)
     int address_size = 0;
     int size_of_elements = 0;
     int count = 0;
-    Address* adresses = nullptr;
+    Address* addresses = nullptr;
     
     std::string city = "";
     std::ifstream in("in.txt");
@@ -59,13 +70,14 @@ int main(int argc, char** argv)
     if (in.is_open())
     {
         in >> address_size;
+        std::cout << "in.txt" << std::endl;
+        std::cout << address_size << std::endl;
         size_of_elements = address_size * 4;
         std::string var1 = "";
         std::string var2 = "";
         int var3 = -1;
         int var4 = -1;
-        std::cout << "in.txt" << std::endl;
-        adresses = new Address[size_of_elements];
+        addresses = new Address[size_of_elements];
         while (!in.eof())
         {
             in >> var1;
@@ -74,7 +86,7 @@ int main(int argc, char** argv)
             in >> var4;
             Address address(var1, var2, var3, var4);
             address.print();
-            adresses[count++] = address;
+            addresses[count++] = address;
         }
         in.close();
     }
@@ -82,40 +94,24 @@ int main(int argc, char** argv)
     {
         std::cout << "Ошибка открытия";
     }
+    sort(addresses, count);
 
-
-    void sort(Address * addresses, int count);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    std::cout << std::endl << "out.txt" << std::endl;
+    std::cout << std::endl << "out.txt" << std::endl << count << std::endl;
     for (int i = 0, j = address_size - 1; i < address_size; i++, j--)
     {
-        adresses[j].print();
+        addresses[j].print();
     }
 
     std::ofstream out("out.txt");
+    out << count << "\n";
     for (int i = 0, j = address_size - 1; i < address_size; i++, j--)
     {
-        out << adresses[j].getCity() << "\n";
-        out << adresses[j].getStreet() << "\n";
-        out << adresses[j].getBuilding() << "\n";
-        out << adresses[j].getAppartment() << "\n";
+        out << addresses[j].getCity() << ", ";
+        out << addresses[j].getStreet() << ", ";
+        out << addresses[j].getBuilding() << ", ";
+        out << addresses[j].getAppartment() << "\n";
     }
     out.close();
-    delete[] adresses;
+    delete[] addresses;
     return 0;
 }
