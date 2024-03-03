@@ -46,12 +46,15 @@ public:
 
 void sort(Address* addresses, int count)
 {
+    Address temp;
     for (int i = 0; i < count; i++)
     {
-        addresses[i].getCity();
-        addresses[i].getStreet();
-        addresses[i].getBuilding();
-        addresses[i].getAppartment();
+        if (addresses[i].getCity() < addresses[i + 1].getCity() /* && i < count*/)
+        {
+            temp = addresses[i];
+            addresses[i] = addresses[i + 1];
+            addresses[i + 1] = temp;
+        }
     }
 }
 
