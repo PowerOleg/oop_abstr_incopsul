@@ -26,6 +26,14 @@ public:
         std::cout << this->appartment << std::endl;
     }
 
+    void print_in_line()
+    {
+        std::cout << this->city << ", ";
+        std::cout << this->street << ", ";
+        std::cout << this->building << ", ";
+        std::cout << this->appartment << std::endl;
+    }
+
     std::string getCity()
     {
         return this->city;
@@ -47,35 +55,21 @@ public:
 int main(int argc, char** argv)
 {
     setlocale(LC_ALL, "ru");
-    std::ifstream stream_for_count("in.txt");
     int size = 0;
-    std::string s = "";
-    if (stream_for_count.is_open())
-    {
-        while (!stream_for_count.eof())
-        {
-            size++;
-            stream_for_count >> s;
-        }
-    } 
-    else
-    {
-        std::cout << "Неизвестная ошибка";
-        return 1;
-    }
-    stream_for_count.close();
-
-    Address* adresses = new Address[size];
     std::string city = "";
     std::ifstream in("in.txt");
     int count = 0;
+    Address* adresses = nullptr;
     if (in.is_open())
     {
+        in >> size;
+        adresses = new Address[size];
         std::string var1 = "";
         std::string var2 = "";
         int var3 = -1;
         int var4 = -1;
         std::cout << "in.txt" << std::endl;
+        std::cout << size << std::endl;
         while (!in.eof())
         {
         in >> var1;
@@ -91,19 +85,22 @@ int main(int argc, char** argv)
     else
     {
         std::cout << "Ошибка открытия";
+        adresses = new Address[1];
     }
     std::cout << std::endl << "out.txt" << std::endl;
+    std::cout << size << std::endl;
     for (int i = 0, j = count - 1; i < count; i++, j--)
     {
-        adresses[j].print();
+        adresses[j].print_in_line();
     }
 
     std::ofstream out("out.txt");
+    out << size << std::endl;
     for (int i = 0, j = count - 1; i < count; i++, j--)
     {
-        out << adresses[j].getCity() << "\n";
-        out << adresses[j].getStreet() << "\n";
-        out << adresses[j].getBuilding() << "\n";
+        out << adresses[j].getCity() << ", ";
+        out << adresses[j].getStreet() << ", ";
+        out << adresses[j].getBuilding() << ", ";
         out << adresses[j].getAppartment() << "\n";
     }
     out.close();
