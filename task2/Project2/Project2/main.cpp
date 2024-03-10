@@ -20,6 +20,14 @@ public:
 
     void print()
     {
+        std::cout << this->city << std::endl;
+        std::cout << this->street << std::endl;
+        std::cout << this->building << std::endl;
+        std::cout << this->appartment << std::endl;
+    }
+
+    void print_in_line()
+    {
         std::cout << this->city << ", ";
         std::cout << this->street << ", ";
         std::cout << this->building << ", ";
@@ -49,11 +57,20 @@ void sort(Address* addresses, int count)
     Address temp;
     for (int i = 0; i < count; i++)
     {
-        if (addresses[i].getCity() < addresses[i + 1].getCity() /* && i < count*/)
+        bool sorted = true;
+        for (int j = 0; j < count - i; j++)
         {
-            temp = addresses[i];
-            addresses[i] = addresses[i + 1];
-            addresses[i + 1] = temp;
+            if (addresses[j].getCity() < addresses[j + 1].getCity())
+            {
+                temp = addresses[j];
+                addresses[j] = addresses[j + 1];
+                addresses[j + 1] = temp;
+                sorted = false;
+            }
+        }
+        if (sorted)
+        {
+            break;
         }
     }
 }
@@ -102,7 +119,7 @@ int main(int argc, char** argv)
     std::cout << std::endl << "out.txt" << std::endl << count << std::endl;
     for (int i = 0, j = address_size - 1; i < address_size; i++, j--)
     {
-        addresses[j].print();
+        addresses[j].print_in_line();
     }
 
     std::ofstream out("out.txt");
